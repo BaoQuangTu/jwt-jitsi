@@ -15,7 +15,8 @@ def generate_token(request):
         raise HyperException(error_code=HTTPStatus.BAD_REQUEST, message="roomId can not be null or empty")
 
     roomId = request.json['roomId']
-    user = User(access_token['id'], access_token['name'], access_token['avatar'], None)
+    # user = User(access_token['id'], access_token['name'], access_token['avatar'], None)
+    user = User("abcd:a1b2c3-d4e5f6-0abc1-23de-abcdef01fedcba", "Bao Quang Tu", "https:/gravatar.com/avatar/abc123", None)
     payload = {}
 
     payload['context'] = user.__dict__
