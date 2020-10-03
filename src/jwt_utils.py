@@ -25,7 +25,7 @@ def generate_token(request):
     payload['iss'] = config_value.JWT_ISSUER
     payload['sub'] = config_value.JWT_SUB
     payload['room'] = roomId
-    payload['exp'] = int(round(time.time())) + config_value.JWT_EXPIRE_AFTER
+    payload['exp'] = int(round(time.time() * 1000)) + config_value.JWT_EXPIRE_AFTER
 
     private_key = open(config.get('PRIVATE_KEY_URL')).read()
 
@@ -37,7 +37,7 @@ def generate_token(request):
 def validate_token(token, on_sso=False):
     payload = None
     PUBLIC_KEY_URL = None
-
+    
     if (on_sso is True):
         PUBLIC_KEY_URL = 'SSO_PUBLIC_KEY_URL'
     else:
@@ -47,6 +47,11 @@ def validate_token(token, on_sso=False):
 
     try:
         payload = jwt.decode(token, public_key, algorithms=['RS256'])
+
+        if ('exp' in payload):
+            exp = payload['exp']
+            if (int(round(time.time() * 1000)) > exp):
+                raise HyperException(error_code=HTTPStatus.UNAUTHORIZED, message="Token expired")
     except:
         raise HyperException(error_code=HTTPStatus.UNAUTHORIZED, message="Token decode failure")
 
