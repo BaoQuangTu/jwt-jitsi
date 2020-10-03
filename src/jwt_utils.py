@@ -47,13 +47,13 @@ def validate_token(token, on_sso=False):
 
     try:
         payload = jwt.decode(token, public_key, algorithms=['RS256'])
+    except:
+        raise HyperException(error_code=HTTPStatus.UNAUTHORIZED, message="Token decode failure")
 
-        if ('exp' in payload):
+    if ('exp' in payload):
             exp = payload['exp']
             if (int(round(time.time() * 1000)) > exp):
                 raise HyperException(error_code=HTTPStatus.UNAUTHORIZED, message="Token expired")
-    except:
-        raise HyperException(error_code=HTTPStatus.UNAUTHORIZED, message="Token decode failure")
 
     return payload
 
