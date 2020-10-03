@@ -37,6 +37,7 @@ def generate_token(request):
 def validate_token(token, on_sso=False):
     payload = None
     PUBLIC_KEY_URL = None
+    
     if (on_sso is True):
         PUBLIC_KEY_URL = 'SSO_PUBLIC_KEY_URL'
     else:
