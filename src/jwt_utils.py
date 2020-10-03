@@ -11,11 +11,13 @@ def generate_token(request):
     access_token = get_access_token_from_request(request);
     access_payload = validate_token_sso(access_token)
 
+    print(access_payload)
+
     if ('roomId' not in request.json or request.json['roomId'] is None or request.json['roomId'].strip() == ''):
         raise HyperException(error_code=HTTPStatus.BAD_REQUEST, message="roomId can not be null or empty")
 
     roomId = request.json['roomId']
-    user = User(access_token['id'], access_token['name'], access_token['avatar'], access_token['email'])
+    user = User(access_token['jti'], access_token['name'], access_token['avatar'], access_token['email'])
     # user = User("abcd:a1b2c3-d4e5f6-0abc1-23de-abcdef01fedcba", "Bao Quang Tu", "https:/gravatar.com/avatar/abc123", None)
     payload = {}
 
