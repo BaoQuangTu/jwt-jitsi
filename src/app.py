@@ -17,6 +17,13 @@ def get_jwt_jitsi():
 
     return jwt_jitsi
 
+@app.route('/check_jwt_jitsi', methods=['GET'])
+def check_jwt_jitsi():
+    token = jwt_utils.get_access_token_from_request(request)
+    payload = jwt_utils.validate_token(token=token)
+
+    return payload
+
 if __name__ == '__main__':
     app_server = WSGIServer((config.get('SERVER_HOST'), int(config.get('SERVER_PORT'))), app)
     app_server.serve_forever()

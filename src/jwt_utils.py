@@ -9,7 +9,7 @@ from payload import *
 def generate_token(request):
     # Get access token from header and validate
     access_token = get_access_token_from_request(request);
-    access_payload = validate_token_sso(access_token)
+    access_payload = validate_token(token=access_token, on_sso=True)
 
     print(access_payload)
 
@@ -34,9 +34,15 @@ def generate_token(request):
     print(token)
     return token
 
-def validate_token_sso(token):
+def validate_token(token, on_sso=False):
     payload = None
-    public_key = open(config.get('SSO_PUBLIC_KEY_URL')).read()
+    PUBLIC_KEY_URL = None
+    if (on_sso is True):
+        PUBLIC_KEY_URL = 'SSO_PUBLIC_KEY_URL'
+    else:
+        PUBLIC_KEY_URL = 'PUBLIC_KEY_URL'
+
+    public_key = open(config.get(PUBLIC_KEY_URL)).read()
 
     try:
         payload = jwt.decode(token, public_key, algorithms=['RS256'])
