@@ -19,13 +19,12 @@ def get_jwt_jitsi():
 
 @app.route('/check_jwt_jitsi', methods=['GET'])
 def check_jwt_jitsi():
-    token = None
+    payload = None
     try:
         token = jwt_utils.get_access_token_from_request(request)
+        payload = jwt_utils.validate_token(token=token)
     except HyperException as e:
         return e.message, e.error_code
-
-    payload = jwt_utils.validate_token(token=token)
 
     return payload
 
