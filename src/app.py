@@ -16,10 +16,10 @@ def get_jwt_jitsi():
         access_token = jwt_utils.get_access_token_from_request(request);
         access_payload = jwt_utils.validate_token(token=access_token, on_sso=True)
 
-        if ('roomId' not in request.json or request.json['room_id'] is None or request.json['room_id'].strip() == ''):
+        if ('room_id' not in request.json or request.json['room_id'] is None or request.json['room_id'].strip() == ''):
             return "room_id can not be null or empty", HTTPStatus.BAD_REQUEST
 
-        room_id = request.json['roomId']
+        room_id = request.json['room_id']
         jwt_jitsi = jwt_utils.generate_token(access_payload, room_id);
     except HyperException as e:
         return e.message, e.error_code
