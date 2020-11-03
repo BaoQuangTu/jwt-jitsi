@@ -9,7 +9,10 @@ from payload import *
 def generate_token(access_payload, room_id):
     print(access_payload)
 
-    user = User(access_payload['jti'], access_payload['name'], access_payload['avatar'], access_payload['email'])
+    user = User(access_payload['jti'], 
+                access_payload['userName'] if 'userName' in access_payload else None, 
+                access_payload['avatar'] if 'avatar' in access_payload else None, 
+                access_payload['email'] if 'email' in access_payload else None)
     # user = User("abcd:a1b2c3-d4e5f6-0abc1-23de-abcdef01fedcba", "Bao Quang Tu", "https:/gravatar.com/avatar/abc123", None)
     payload = {}
 
