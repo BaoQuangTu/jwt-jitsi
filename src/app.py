@@ -14,7 +14,7 @@ def get_jwt_jitsi():
     try:
         # Get access token from header and validate
         access_token = jwt_utils.get_access_token_from_request(request);
-        access_payload = jwt_utils.validate_token(token=access_token, on_sso=True)
+        access_payload = jwt_utils.validate_token_rs256(token=access_token)
 
         if ('room_id' not in request.json or request.json['room_id'] is None or request.json['room_id'].strip() == ''):
             return "room_id can not be null or empty", HTTPStatus.BAD_REQUEST
@@ -32,7 +32,7 @@ def check_jwt_jitsi():
 
     try:
         token = jwt_utils.get_access_token_from_request(request)
-        payload = jwt_utils.validate_token(token=token)
+        payload = jwt_utils.validate_token_hs256(token=token)
     except HyperException as e:
         return e.message, e.error_code
 
