@@ -3,4 +3,4 @@ JWT_AUDIENCE = 'jitsi'
 JWT_ISSUER = "jitsi-meet-hyperlogy"
 JWT_SUB = "meet-jwt.hyperlogy.com"
 JWT_REQUEST_KEY = "Authorization"
-JWT_EXPIRE_AFTER = 1 * 60 * 1000
+JWT_EXPIRE_AFTER = 2 * 60 * 1000
